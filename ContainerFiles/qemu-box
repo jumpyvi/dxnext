@@ -1,0 +1,24 @@
+FROM ubuntu:resolute
+
+RUN apt-get update && apt-get install -y \
+    qemu-system-x86 \
+    qemu-system-arm \
+    qemu-system-riscv \
+    qemu-system-modules-opengl \
+    qemu-system-modules-spice \
+    qemu-system-misc \
+    swtpm \
+    libvirt-daemon-system \
+    libvirt-clients \
+    libegl1
+
+RUN rm -f /etc/libvirt/qemu/networks/autostart/default.xml && \
+    rm -f /etc/libvirt/qemu/networks/default.xml
+
+RUN echo 'user = "root"' >> /etc/libvirt/qemu.conf && \
+    echo 'group = "root"' >> /etc/libvirt/qemu.conf && \
+    echo 'swtpm_user = "root"' >> /etc/libvirt/qemu.conf && \
+    echo 'swtpm_group = "root"' >> /etc/libvirt/qemu.conf
+
+RUN echo 'unix_sock_group = "root"' >> /etc/libvirt/libvirtd.conf && \
+    echo 'unix_sock_rw_perms = "0770"' >> /etc/libvirt/libvirtd.conf
