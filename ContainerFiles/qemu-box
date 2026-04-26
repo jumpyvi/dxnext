@@ -1,5 +1,7 @@
 FROM ubuntu:resolute
 
+RUN groupadd -g 5679 libvirt
+
 RUN apt-get update && apt-get install -y \
     qemu-system-x86 \
     qemu-system-arm \
